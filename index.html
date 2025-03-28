@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Number Checker</title>
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #b8860b;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        /* Container Box */
+        .container {
+            border: 3px solid #b8860b;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 5px 5px 15px rgba(184, 134, 11, 0.5);
+            text-align: center;
+        }
+        
+        /* Animated Star Background */
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: -1;
+        }
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: #b8860b;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: moveStars linear infinite;
+        }
+        @keyframes moveStars {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(100vh); opacity: 0; }
+        }
+        
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+            background-color: #ffffff;
+            color: #b8860b;
+            border: 2px solid #b8860b;
+        }
+        button {
+            background-color: #b8860b;
+            border: 2px solid #ffffff;
+            color: #ffffff;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #daa520;
+            color: #ffffff;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(184, 134, 11, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="container">
+        <h1>Scientific Number Checker</h1>
+        <input type="text" id="numberInput" placeholder="Enter a number">
+        <button onclick="checkScientificNumber()">Check</button>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        function checkScientificNumber() {
+            let input = document.getElementById("numberInput").value.trim();
+            let regex = /^-?\d+(\.\d+)?([eE][-+]?\d+)?$/;
+            let message = document.getElementById("message");
+            
+            // Perbaikan validasi agar mendukung angka ilmiah dengan eksponen
+            let number = Number(input);
+            if (!isNaN(number) && input.match(/^[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?$/)) {
+                message.textContent = "Yes, it is a scientific number";
+                message.style.color = "#008000";
+            } else {
+                message.textContent = "No, it is not a scientific number";
+                message.style.color = "#ff0000";
+            }
+        }
+
+        // Generate moving stars
+        function createStars() {
+            const starContainer = document.getElementById("stars");
+            for (let i = 0; i < 100; i++) {
+                let star = document.createElement("div");
+                star.classList.add("star");
+                star.style.left = Math.random() * 100 + "vw";
+                star.style.top = Math.random() * 100 + "vh";
+                star.style.animationDuration = (Math.random() * 5 + 5) + "s";
+                starContainer.appendChild(star);
+            }
+        }
+        createStars();
+    </script>
+</body>
+</html>
